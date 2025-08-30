@@ -18,21 +18,16 @@ public class Transaction {
 
     private int transactionCounter = 1; // auto increment ID
 
-    public void setTransaction(Integer userId, Integer laundryId, Integer laundryPrice, Integer laundryWeight){
+    public void setTransaction(Integer userId, Integer laundryId, Integer laundryPrice, Integer laundryWeight, Integer totalPrice){
         this.transactionId.add(transactionCounter++);
         this.userId.add(userId);
         this.laundryId.add(laundryId);
         this.laundryWeight.add(laundryWeight);
         this.laundryPrice.add(laundryPrice);
-        this.totalPrice.add(laundryWeight * laundryPrice);
+        this.totalPrice.add(totalPrice);
         this.createdAt.add(LocalDateTime.now());
     }
 
-    /**
-     * TODO:
-     * - Create Logic if user multiple laundry
-     * - Create Logic if user balance not enaf and after transaction
-     */
     public void interact(Admin admin, Customer customer, Type type) {
         System.out.println("\n========= Selamat Datang di Kasir =========");
 
@@ -100,7 +95,7 @@ public class Transaction {
                     type.deleteLaundryTypes(typeId);
                 }
                 case 9 -> processTransaction(customer, type);
-                case 10 -> showReport(customer, type);
+                case 10 -> showReportTransaction(customer, type);
                 case 0 -> {
                     System.out.println("Terimakasih sudah menggunakan aplikasi");
                     scan.close();
@@ -115,14 +110,14 @@ public class Transaction {
     public void processTransaction(Customer customer, Type type) {
         customer.showCustomer();
         System.out.print("\nMasukan Id Pembeli: ");
-        int inputUserId = scan.nextInt();
+        int customerId = scan.nextInt();
 
-        if(inputUserId >= customer.getCustomersLength()) {
+        if(customerId >= customer.getCustomersLength()) {
             System.out.println("Pembeli tidak ditemukan!");
             return;
         }
 
-        System.out.println("Atas nama " + customer.getName(inputUserId));
+        System.out.println("Atas nama " + customer.getName(customerId));
         System.out.println("Silahkan pilih jenis laundry: ");
         type.showLaundryTypes();
 
@@ -137,8 +132,27 @@ public class Transaction {
         System.out.print("Masukan berat laundry (kg): ");
         int inputWeight = scan.nextInt();
         int pricePerKg = type.getLaundryPrice(inputLaundryId);
+        int totalPrice = inputWeight * pricePerKg;
 
-        setTransaction(inputUserId, inputLaundryId, pricePerKg, inputWeight);
+        int currentBalance = customer.getBalance(customerId);
+
+        if (currentBalance < totalPrice) {
+            System.out.println("Saldo tidak mencukupi. Saldo Anda: Rp " + currentBalance + ", Total: Rp " + totalPrice);
+            System.out.print("Isi saldo tambahan: Rp ");
+            int topUp = scan.nextInt();
+            scan.nextLine();
+
+            currentBalance += topUp;
+            customer.setCustomerBalance(customerId, currentBalance);
+
+            if (currentBalance < totalPrice) {
+                System.out.println("Maaf, saldo masih kurang. Transaksi dibatalkan!");
+                return;
+            }
+        }
+
+        customer.setCustomerBalance(customerId, currentBalance - totalPrice);
+        setTransaction(customerId, inputLaundryId, pricePerKg, inputWeight, totalPrice);
         checkoutTransaction(customer, type);
     }
 
@@ -148,22 +162,23 @@ public class Transaction {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
         for (int i = 0; i < transactionId.size(); i++) {
-            int uid = userId.get(i);
+            int userId = this.userId.get(i);
 
             System.out.println("ID Transaksi : " + transactionId.get(i));
             System.out.println("Tanggal      : " + createdAt.get(i).format(formatter));
-            System.out.println("Pelanggan    : " + customer.getName(uid));
-            System.out.println("Alamat       : " + customer.getAddress(uid));
-            System.out.println("Telp/Email   : " + customer.getPhoneNumber(uid) + " / " + customer.getEmail(uid));
+            System.out.println("Pelanggan    : " + customer.getName(userId));
+            System.out.println("Alamat       : " + customer.getAddress(userId));
+            System.out.println("Telp/Email   : " + customer.getPhoneNumber(userId) + " / " + customer.getEmail(userId));
             System.out.println("Laundry      : " + type.getLaundryType(laundryId.get(i)));
             System.out.println("Berat        : " + laundryWeight.get(i) + " kg");
             System.out.println("Harga/kg     : RP " + laundryPrice.get(i));
             System.out.println("Total Bayar  : Rp " + totalPrice.get(i));
+            System.out.println("Sisa Saldo   : RP " + customer.getBalance(userId));
             System.out.println("===================================");
         }
     }
 
-    public void showReport(Customer customer, Type type) {
+    public void showReportTransaction(Customer customer, Type type) {
         if (transactionId.isEmpty()) {
             System.out.println("\nBelum ada transaksi!");
             return;
@@ -176,18 +191,18 @@ public class Transaction {
                 "ID", "Customer", "Laundry", "Harga/kg", "Berat", "Total", "Tanggal", "Kontak");
 
         for (int i = 0; i < transactionId.size(); i++) {
-            int uid = userId.get(i);
-            int lid = laundryId.get(i);
+            int userId = this.userId.get(i);
+            int laundryId = this.laundryId.get(i);
 
             System.out.printf("| %-3d | %-20s | %-15s | Rp %-7d | %-8d | Rp %-17d | %-20s | %-30s |\n",
                     transactionId.get(i),
-                    customer.getName(uid),
-                    type.getLaundryType(lid),
+                    customer.getName(userId),
+                    type.getLaundryType(laundryId),
                     laundryPrice.get(i),
                     laundryWeight.get(i),
                     totalPrice.get(i),
                     createdAt.get(i).format(formatter),
-                    customer.getPhoneNumber(uid) + "/" + customer.getEmail(uid)
+                    customer.getPhoneNumber(userId) + "/" + customer.getEmail(userId)
             );
         }
     }

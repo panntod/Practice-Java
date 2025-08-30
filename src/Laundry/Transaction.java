@@ -8,7 +8,6 @@ import java.util.Scanner;
 public class Transaction {
     private Scanner scan = new Scanner(System.in);
 
-    // Data transaksi (masih dalam bentuk list paralel)
     private ArrayList<Integer> transactionId = new ArrayList<>();
     private ArrayList<Integer> userId = new ArrayList<>();
     private ArrayList<Integer> laundryWeight = new ArrayList<>();
@@ -36,9 +35,81 @@ public class Transaction {
      * - Create Logic if user balance not enaf and after transaction
      */
     public void interact(Admin admin, Customer customer, Type type) {
-        System.out.println("=== Selamat Di Kasir ===");
+        System.out.println("\n========= Selamat Datang di Kasir =========");
 
-        processTransaction(customer, type);
+        admin.showAdmins();
+
+        System.out.print("\nMasukan Id Admin:");
+        int adminId = scan.nextInt();
+
+        if(adminId >= admin.getAdminsLength()) {
+            System.out.println("Admin tidak ditemukan!");
+            return;
+        }
+
+        System.out.println("Login sebagai: " + admin.getName(adminId));
+
+        while(true){
+            System.out.println("\n========= Menu Admin =========");
+            System.out.println("[1] Lihat User");
+            System.out.println("[2] Tambah User");
+            System.out.println("[3] Edit User");
+            System.out.println("[4] Hapus User");
+            System.out.println("[5] Lihat Jenis Laundry");
+            System.out.println("[6] Tambah Jenis Laundry");
+            System.out.println("[7] Edit Jenis Laundry");
+            System.out.println("[8] Hapus Jenis Laundry");
+            System.out.println("[9] Proses Transaksi");
+            System.out.println("[10] Laporan Transaksi");
+            System.out.println("[0] Keluar");
+            System.out.print("Pilih: ");
+
+            int choice = scan.nextInt();
+            scan.nextLine();
+
+            switch (choice){
+                case 1 -> customer.showCustomer();
+                case 2 -> customer.createNewCustomer();
+                case 3 -> {
+                    System.out.print("Masukan id customer:");
+                    int customerId = scan.nextInt();
+                    scan.nextLine();
+
+                    customer.updateCustomer(customerId);
+                }
+                case 4 -> {
+                    System.out.print("Masukan id customer:");
+                    int customerId = scan.nextInt();
+                    scan.nextLine();
+
+                    customer.deleteCustomer(customerId);
+                }
+                case 5 -> type.showLaundryTypes();
+                case 6 -> type.createNewLaundryTypes();
+                case 7 -> {
+                    System.out.print("Masukan id jenis loundry:");
+                    int typeId = scan.nextInt();
+                    scan.nextLine();
+
+                    type.updateLaundryTypes(typeId);
+                }
+                case 8 -> {
+                    System.out.print("Masukan Id jenis loundry:");
+                    int typeId = scan.nextInt();
+                    scan.nextLine();
+
+                    type.deleteLaundryTypes(typeId);
+                }
+                case 9 -> processTransaction(customer, type);
+                case 0 -> {
+                    System.out.println("Terimakasih sudah menggunakan aplikasi");
+                    scan.close();
+                    System.exit(0);
+                }
+                default -> System.out.println("Pilihan tidak valid!");
+            }
+        }
+
     }
 
     public void processTransaction(Customer customer, Type type) {

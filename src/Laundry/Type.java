@@ -1,8 +1,11 @@
 package Laundry;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Type {
+    Scanner scan = new Scanner(System.in);
+
     private ArrayList<String> laundryType = new ArrayList<String>();
     private ArrayList<Integer> laundryPrice = new ArrayList<Integer>();
 
@@ -12,14 +15,6 @@ public class Type {
 
         this.laundryType.add("Cuci Setrika");
         this.laundryPrice.add(5000);
-    }
-
-    public void setLaundryType(String name){
-        this.laundryType.add(name);
-    }
-
-    public void setLaundryPrice(Integer price){
-        this.laundryPrice.add(price);
     }
 
     public String getLaundryType(Integer id){
@@ -34,11 +29,59 @@ public class Type {
         return this.laundryType.size();
     }
 
+    // ========================= CRUD =========================
+
+    // Read
+
     public void showLaundryTypes(){
         System.out.println("\nTabel Jenis Laundry");
         System.out.printf("| %-2s | %-12s | %-5s |\n", "Id", "Nama Barang", "Harga");
         for(int i = 0; i < getLaundrysLength(); i++){
             System.out.printf("| %-2s | %-12s | %-5s |\n", i, getLaundryType(i), getLaundryPrice(i));
         }
+    }
+
+    // Create
+    public void createNewLaundryTypes() {
+        System.out.print("Masukan jenis loundry: ");
+        this.laundryType.add(scan.nextLine());
+
+        System.out.print("Masukan harga loundry: ");
+        this.laundryPrice.add(scan.nextInt());
+        scan.nextLine(); // buang newline
+
+        System.out.println("Laundry berhasil dibuat ");
+    }
+
+    // Update
+    public void updateLaundryTypes(int id) {
+        if (id < 0 || id >= getLaundrysLength()) {
+            System.out.println("Id tidak valid!");
+            return;
+        }
+
+        System.out.println("Update data untuk Id: " + id);
+        System.out.print("Jenis loundry baru (" + getLaundryType(id) + "): ");
+        this.laundryType.set(id, scan.nextLine());
+
+        System.out.print("Harga loundry baru (" + getLaundryPrice(id) + "): ");
+        this.laundryPrice.set(id, scan.nextInt());
+        scan.nextLine();
+
+        System.out.println("Laundry berhasil diperbarui!");
+    }
+
+    // Delete
+    public void deleteLaundryTypes(int id) {
+        if (id < 0 || id >= getLaundrysLength()) {
+            System.out.println("Id tidak valid!");
+            return;
+        }
+
+        System.out.println("Menghapus jenis loundry: " + getLaundryType(id));
+        this.laundryType.remove(id);
+        this.laundryPrice.remove(id);
+
+        System.out.println("Laundry berhasil dihapus!");
     }
 }

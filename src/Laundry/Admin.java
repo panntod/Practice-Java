@@ -53,7 +53,7 @@ public class Admin extends User {
     }
 
     public void showAdmins() {
-        System.out.println("\nTabel Jenis Laundry");
+        System.out.println("\nTabel Admin");
         System.out.printf("| %-2s | %-12s | %-12s | %-12s | %-12s |\n", "Id", "Nama", "Alamat", "Nomor HP", "Email");
         for (int i = 0; i < getAdminsLength(); i++) {
             System.out.printf("| %-2s | %-12s | %-12s | %-12s | %-12s |\n", i, getName(i), getAddress(i), getPhoneNumber(i), getEmail(i));

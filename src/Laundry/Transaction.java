@@ -30,7 +30,6 @@ public class Transaction {
 
     /**
      * TODO:
-     * - Create CRUD Laundry Type and User
      * - Create Logic if user multiple laundry
      * - Create Logic if user balance not enaf and after transaction
      */
@@ -101,6 +100,7 @@ public class Transaction {
                     type.deleteLaundryTypes(typeId);
                 }
                 case 9 -> processTransaction(customer, type);
+                case 10 -> showReport(customer, type);
                 case 0 -> {
                     System.out.println("Terimakasih sudah menggunakan aplikasi");
                     scan.close();
@@ -143,7 +143,7 @@ public class Transaction {
     }
 
     void checkoutTransaction(Customer customer, Type type){
-        System.out.println("\n=== Struk Transaksi ===");
+        System.out.println("\n========= Struk Transaksi =========");
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
@@ -159,7 +159,36 @@ public class Transaction {
             System.out.println("Berat        : " + laundryWeight.get(i) + " kg");
             System.out.println("Harga/kg     : RP " + laundryPrice.get(i));
             System.out.println("Total Bayar  : Rp " + totalPrice.get(i));
-            System.out.println("------------------------------");
+            System.out.println("===================================");
+        }
+    }
+
+    public void showReport(Customer customer, Type type) {
+        if (transactionId.isEmpty()) {
+            System.out.println("\nBelum ada transaksi!");
+            return;
+        }
+
+        System.out.println("\n========= Laporan Transaksi =========");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        System.out.printf("| %-3s | %-20s | %-15s | %-10s | %-8s | %-20s | %-20s | %-30s |\n",
+                "ID", "Customer", "Laundry", "Harga/kg", "Berat", "Total", "Tanggal", "Kontak");
+
+        for (int i = 0; i < transactionId.size(); i++) {
+            int uid = userId.get(i);
+            int lid = laundryId.get(i);
+
+            System.out.printf("| %-3d | %-20s | %-15s | Rp %-7d | %-8d | Rp %-17d | %-20s | %-30s |\n",
+                    transactionId.get(i),
+                    customer.getName(uid),
+                    type.getLaundryType(lid),
+                    laundryPrice.get(i),
+                    laundryWeight.get(i),
+                    totalPrice.get(i),
+                    createdAt.get(i).format(formatter),
+                    customer.getPhoneNumber(uid) + "/" + customer.getEmail(uid)
+            );
         }
     }
 }

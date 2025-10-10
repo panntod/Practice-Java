@@ -1,4 +1,4 @@
-package Game;
+package Project.Game;
 
 abstract class Character {
     protected String name;

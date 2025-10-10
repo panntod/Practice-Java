@@ -1,4 +1,4 @@
-package TokoOnline;
+package Project.TokoOnline;
 
 import java.util.Scanner;
 

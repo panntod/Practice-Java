@@ -1,4 +1,4 @@
-package Laundry;
+package Project.Laundry;
 
 // Pakai Interface
 public interface IUser {

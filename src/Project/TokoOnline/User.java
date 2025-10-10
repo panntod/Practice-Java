@@ -1,4 +1,4 @@
-package TokoOnline;
+package Project.TokoOnline;
 
 public class User {
     private String name;

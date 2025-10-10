@@ -1,4 +1,4 @@
-package Laundry;
+package Project.Laundry;
 
 // Pakai Abstract
 abstract class User {

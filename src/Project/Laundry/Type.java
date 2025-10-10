@@ -1,4 +1,4 @@
-package Laundry;
+package Project.Laundry;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -34,7 +34,7 @@ public class Type {
     // Read
 
     public void showLaundryTypes(){
-        System.out.println("\nTabel Jenis Laundry");
+        System.out.println("\nTabel Jenis Project.Laundry");
         System.out.printf("| %-2s | %-12s | %-5s |\n", "Id", "Nama Barang", "Harga");
         for(int i = 0; i < getLaundrysLength(); i++){
             System.out.printf("| %-2s | %-12s | %-5s |\n", i, getLaundryType(i), getLaundryPrice(i));
@@ -50,7 +50,7 @@ public class Type {
         this.laundryPrice.add(scan.nextInt());
         scan.nextLine(); // buang newline
 
-        System.out.println("Laundry berhasil dibuat ");
+        System.out.println("Project.Laundry berhasil dibuat ");
     }
 
     // Update
@@ -68,7 +68,7 @@ public class Type {
         this.laundryPrice.set(id, scan.nextInt());
         scan.nextLine();
 
-        System.out.println("Laundry berhasil diperbarui!");
+        System.out.println("Project.Laundry berhasil diperbarui!");
     }
 
     // Delete
@@ -82,6 +82,6 @@ public class Type {
         this.laundryType.remove(id);
         this.laundryPrice.remove(id);
 
-        System.out.println("Laundry berhasil dihapus!");
+        System.out.println("Project.Laundry berhasil dihapus!");
     }
 }

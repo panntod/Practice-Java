@@ -1,7 +1,7 @@
-package Game;
+package Project.Game;
 
-class Archer extends Character {
-    public Archer(String name, int health, int resource) {
+class Mage extends Character {
+    public Mage(String name, int health, int resource) {
         super(name, health, resource);
     }
 
@@ -12,13 +12,13 @@ class Archer extends Character {
             System.out.println(target.getName() + " is already dead. Attack wasted!");
             return;
         }
-        if (resource >= 1) {
-            System.out.println(name + " the Archer fires a swift arrow!");
-            int damage = 20;
+        if (resource >= 20) {
+            System.out.println(name + " the Mage casts a powerful fireball!");
+            int damage = 40;
             target.takeDamage(damage);
-            resource -= 1;
+            resource -= 20;
         } else {
-            System.out.println(name + " is out of arrows!");
+            System.out.println(name + " does not have enough mana to cast fireball!");
         }
     }
 }

@@ -1,4 +1,4 @@
-package Laundry;
+package Project.Laundry;
 
 import java.util.ArrayList;
 

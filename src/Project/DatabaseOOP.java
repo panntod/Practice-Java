@@ -1,3 +1,5 @@
+package Project;
+
 // Kontrak utama: semua DB harus bisa connect, disconnect, dan executeQuery
 interface DatabaseConnection {
     void connect();
@@ -93,7 +95,7 @@ public class DatabaseOOP {
         db2.disconnect();
     }
 
-    
+
 
 }
 

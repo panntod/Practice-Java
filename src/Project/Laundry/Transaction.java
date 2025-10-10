@@ -1,4 +1,4 @@
-package Laundry;
+package Project.Laundry;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -49,10 +49,10 @@ public class Transaction {
             System.out.println("[2] Tambah User");
             System.out.println("[3] Edit User");
             System.out.println("[4] Hapus User");
-            System.out.println("[5] Lihat Jenis Laundry");
-            System.out.println("[6] Tambah Jenis Laundry");
-            System.out.println("[7] Edit Jenis Laundry");
-            System.out.println("[8] Hapus Jenis Laundry");
+            System.out.println("[5] Lihat Jenis Project.Laundry");
+            System.out.println("[6] Tambah Jenis Project.Laundry");
+            System.out.println("[7] Edit Jenis Project.Laundry");
+            System.out.println("[8] Hapus Jenis Project.Laundry");
             System.out.println("[9] Proses Transaksi");
             System.out.println("[10] Laporan Transaksi");
             System.out.println("[0] Keluar");
@@ -125,7 +125,7 @@ public class Transaction {
         int inputLaundryId = scan.nextInt();
 
         if(inputLaundryId >= type.getLaundrysLength()){
-            System.out.println("Jenis Laundry tidak ditemukan!");
+            System.out.println("Jenis Project.Laundry tidak ditemukan!");
             return;
         }
 
@@ -169,7 +169,7 @@ public class Transaction {
             System.out.println("Pelanggan    : " + customer.getName(userId));
             System.out.println("Alamat       : " + customer.getAddress(userId));
             System.out.println("Telp/Email   : " + customer.getPhoneNumber(userId) + " / " + customer.getEmail(userId));
-            System.out.println("Laundry      : " + type.getLaundryType(laundryId.get(i)));
+            System.out.println("Project.Laundry      : " + type.getLaundryType(laundryId.get(i)));
             System.out.println("Berat        : " + laundryWeight.get(i) + " kg");
             System.out.println("Harga/kg     : RP " + laundryPrice.get(i));
             System.out.println("Total Bayar  : Rp " + totalPrice.get(i));

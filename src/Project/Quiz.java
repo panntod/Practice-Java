@@ -1,4 +1,4 @@
-// SOAL GANJIL
+package Project;// SOAL GANJIL
 import java.util.Scanner;
 
 public class Quiz {
